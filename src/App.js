@@ -1,10 +1,9 @@
 import React from 'react';
+import IntakeDashboard from './components/IntakeDashboard';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello Nutritionix</h1>
-    </div>
+    <IntakeDashboard />
   );
 }
 

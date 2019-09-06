@@ -33,6 +33,8 @@ const response = {
   ]
 }
 
+const API_URL = 'https://trackapi.nutritionix.com/v2';
+
 /*
 async function getInfo(value) {
   try {
@@ -121,6 +123,7 @@ const FoodSearchForm = () => {
                 size='small'
                 icon='search'
                 placeholder='Search...'
+                fluid
               />
               {
                 isOpen ? (

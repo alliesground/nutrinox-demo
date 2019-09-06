@@ -1,18 +1,13 @@
 import React from 'react';
-import { Grid, Image, Button } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
+import FoodSearchForm from './FoodSearchForm';
 
-const IntakeDashboard = () => (
+
+const IntakeDashboard = () =>(
   <Grid>
-    <Grid.Row columns={2}>
-      <Grid.Column>
-        <Button>Click Me</Button>
-      </Grid.Column>
-
-      <Grid.Column>
-        hangover
-      </Grid.Column>
-    </Grid.Row>
+    <FoodSearchForm />
   </Grid>
 )
 
 export default IntakeDashboard;
+

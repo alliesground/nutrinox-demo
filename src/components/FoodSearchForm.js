@@ -90,7 +90,7 @@ const FoodSearchForm = () => {
   }
 
   return (
-    <Grid.Row centered columns={4}>
+    <Grid doubling centered columns={4}>
       <Grid.Column>
         <Downshift
           onChange={selection =>
@@ -137,7 +137,7 @@ const FoodSearchForm = () => {
           )}
         </Downshift>
       </Grid.Column>
-    </Grid.Row>
+    </Grid>
   )
 }
 

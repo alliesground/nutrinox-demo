@@ -1,18 +1,18 @@
 import React from 'react'
-import { Grid } from 'semantic-ui-react'
+import { Grid, List } from 'semantic-ui-react'
+import Intake from './Intake'
 
 const IntakeList = ({ intakeList }) => {
   console.log('List: ', intakeList)
+  const intakes = intakeList.map(intake => (
+    <Intake intake={intake} />
+  ))
   return (
-    <Grid doubling centered columns={4}>
+    <Grid doubling>
       <Grid.Column>
-        {
-          intakeList.map(intake => (
-            <div>
-              {intake.food_name}
-            </div>
-          ))
-        }
+        <List selection relaxed divided verticalAlign='middle'>
+          { intakes }
+        </List>
       </Grid.Column>
     </Grid>
   )

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Header } from 'semantic-ui-react';
 import { useData } from './hooks/useData'
 import FoodSearchForm from './FoodSearchForm';
 import IntakeListSlider from './IntakeListSlider';
 import IntakeList from './IntakeList'
+import UserProfile from './UserProfile'
 
 const IntakeDashboard = () => {
   const [diet, setDiet] = useData();
@@ -41,15 +42,71 @@ const IntakeDashboard = () => {
 
   return (
     <>
-      <FoodSearchForm />
-      <IntakeListSlider 
-        onPrevClick={handlePrevClick}
-        onNextClick={handleNextClick}
-        date={date}
-      />
-      <IntakeList 
-        intakeList={intakeList}
-      />
+      <Grid>
+        <Grid.Row color='purple'>
+          <Grid.Column>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column>
+                  <Grid doubling centered columns={4}>
+                    <Grid.Column>
+                      <FoodSearchForm />
+                    </Grid.Column>
+                  </Grid>
+                </Grid.Column>
+              </Grid.Row>
+
+              <Grid.Row only='mobile'>
+                <Grid.Column>
+                  <Grid doubling centered columns={4}>
+                    <Grid.Column>
+                      <UserProfile />
+                    </Grid.Column>
+                  </Grid>
+                </Grid.Column>
+              </Grid.Row>
+
+              <Grid.Row>
+                <Grid.Column>
+                  <Grid doubling centered columns={4}>
+                    <Grid.Column>
+                      <IntakeListSlider 
+                        onPrevClick={handlePrevClick}
+                        onNextClick={handleNextClick}
+                        date={date}
+                      />
+                    </Grid.Column>
+                  </Grid>
+                </Grid.Column>
+              </Grid.Row>
+
+            </Grid>
+          </Grid.Column>
+        </Grid.Row>
+
+        <Grid.Row>
+          <Grid.Column>
+            <Grid stackable padded='horizontally'>
+              <Grid.Column 
+                width={4}
+                color='grey'
+                only='computer tablet'
+              >
+                <UserProfile />
+              </Grid.Column>
+
+              <Grid.Column width={12}>
+                <Header>Intake List</Header>
+                <IntakeList
+                  intakeList={intakeList}
+                />
+              </Grid.Column>
+            </Grid>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+
+
     </>
   )
 }

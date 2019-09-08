@@ -10,31 +10,27 @@ const IntakeSlider = ({ onPrevClick, onNextClick, date }) => {
   )
 
   return (
-    <Grid doubling centered columns={4}>
-      <Grid.Column>
-        <Grid>
-          <Grid.Column width={3}>
-            <Icon 
-              link
-              name='chevron left' 
-              onClick={onPrevClick}
-            />
-          </Grid.Column>
+    <Grid>
+      <Grid.Column width={3}>
+        <Icon 
+          link
+          name='chevron left' 
+          onClick={onPrevClick}
+        />
+      </Grid.Column>
 
-          <Grid.Column width={10} textAlign='center'>
-            <Header>
-              { isCurrentDate() ? "Today" : date.toDateString() }
-            </Header>
-          </Grid.Column>
+      <Grid.Column width={10} textAlign='center'>
+        <Header>
+          { isCurrentDate() ? "Today" : date.toDateString() }
+        </Header>
+      </Grid.Column>
 
-          <Grid.Column width={3} textAlign='right'>
-            <Icon 
-              link
-              name='chevron right' 
-              onClick={onNextClick}
-            />
-          </Grid.Column>
-        </Grid>
+      <Grid.Column width={3} textAlign='right'>
+        <Icon 
+          link
+          name='chevron right' 
+          onClick={onNextClick}
+        />
       </Grid.Column>
     </Grid>
   )

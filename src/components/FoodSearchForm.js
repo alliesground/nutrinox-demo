@@ -90,54 +90,50 @@ const FoodSearchForm = () => {
   }
 
   return (
-    <Grid doubling centered columns={4}>
-      <Grid.Column>
-        <Downshift
-          onChange={selection =>
-            alert(selection ? `You selected ${selection.value}` : 'Selection Cleared')
-          }
-          isOpen={displayResults}
-          onOuterClick={() => setDisplayResults(false)}
-          inputValue={value}
-        >
-          {({
-            getInputProps,
-            getItemProps,
-            getLabelProps,
-            getMenuProps,
-            isOpen,
-            inputValue,
-            highlightedIndex,
-            selectedItem,
-          }) => (
-            <div>
-              <Input 
-                {
-                  ...getInputProps({
-                    onChange: _.debounce(handleSearchChange, 
-                    500,
-                    { leading: true })
-                  })
-                } 
-                loading={loading}
-                size='small'
-                icon='search'
-                placeholder='Search...'
-                fluid
+    <Downshift
+      onChange={selection =>
+        alert(selection ? `You selected ${selection.value}` : 'Selection Cleared')
+      }
+      isOpen={displayResults}
+      onOuterClick={() => setDisplayResults(false)}
+      inputValue={value}
+    >
+      {({
+        getInputProps,
+        getItemProps,
+        getLabelProps,
+        getMenuProps,
+        isOpen,
+        inputValue,
+        highlightedIndex,
+        selectedItem,
+      }) => (
+        <div>
+          <Input 
+            {
+              ...getInputProps({
+                onChange: _.debounce(handleSearchChange, 
+                500,
+                { leading: true })
+              })
+            } 
+            loading={loading}
+            size='small'
+            icon='search'
+            placeholder='Search...'
+            fluid
+          />
+          {
+            isOpen ? (
+              <SearchResultList 
+                results={response}
               />
-              {
-                isOpen ? (
-                  <SearchResultList 
-                    results={response}
-                  />
-                ) : null
-              }
+            ) : null
+          }
 
-            </div>
-          )}
-        </Downshift>
-      </Grid.Column>
-    </Grid>
+        </div>
+      )}
+    </Downshift>
   )
 }
 

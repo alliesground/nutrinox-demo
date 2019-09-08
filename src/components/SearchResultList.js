@@ -9,26 +9,27 @@ const SearchResultList = ({ results }) => {
       return (
         <>
           <Header size='medium'>{ category }</Header>
-          <List.Item>
+          <List selection divided relaxed verticalAlign='middle'>
             {
               searchItems.map(item => (
                 <SearchItem item={item} />
               ))
             }
-          </List.Item>
+          </List>
         </>
       )
     }
   )
 
   return (
-    <div>
-      <Segment>
-        <List divided relaxed>
-          { searchResults }
-        </List>
-      </Segment>
-    </div>
+    <Segment 
+      style={{position: 'absolute', 
+        zIndex:'9999',
+        width: '100%'
+      }}
+    >
+      { searchResults }
+    </Segment>
   )
 }
 

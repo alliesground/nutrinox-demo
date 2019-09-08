@@ -30,6 +30,54 @@ const response = {
        },
        "locale": "en_US"
     },
+    {
+      "food_name": "cheese",
+       "photo": {
+         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
+       },
+    },
+    {
+      "food_name": "cheese",
+       "photo": {
+         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
+       },
+    },
+    {
+      "food_name": "cheese",
+       "photo": {
+         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
+       },
+    },
+    {
+      "food_name": "cheese",
+       "photo": {
+         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
+       },
+    },
+    {
+      "food_name": "cheese",
+       "photo": {
+         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
+       },
+    },
+    {
+      "food_name": "cheese",
+       "photo": {
+         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
+       },
+    },
+    {
+      "food_name": "cheese",
+       "photo": {
+         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
+       },
+    },
+    {
+      "food_name": "cheese",
+       "photo": {
+         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
+       },
+    },
   ]
 }
 
@@ -108,7 +156,7 @@ const FoodSearchForm = () => {
         highlightedIndex,
         selectedItem,
       }) => (
-        <div>
+        <div style={{position: 'relative'}}>
           <Input 
             {
               ...getInputProps({
@@ -125,7 +173,7 @@ const FoodSearchForm = () => {
           />
           {
             isOpen ? (
-              <SearchResultList 
+              <SearchResultList
                 results={response}
               />
             ) : null

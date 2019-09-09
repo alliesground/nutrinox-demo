@@ -1,18 +1,21 @@
-import React from 'react'
-import { Segment, List, Header } from 'semantic-ui-react'
+import React, { useState } from 'react'
+import { Segment, List, Header, Image } from 'semantic-ui-react'
 import SearchItem from './SearchItem'
 
-const SearchResultList = ({ results }) => { 
+const SearchResultList = ({ results, selectedItem, getItemProps, getMenuProps, intakeFormOpen }) => {
 
   const searchResults = Object.entries(results).map(
     ([category, searchItems]) => {
       return (
         <>
           <Header size='medium'>{ category }</Header>
-          <List selection divided relaxed verticalAlign='middle'>
+          <List selection divided relaxed verticalAlign='middle' {...getMenuProps()}>
             {
               searchItems.map(item => (
-                <SearchItem item={item} />
+                <SearchItem 
+                  item={item} 
+                  getItemProps={getItemProps}
+                />
               ))
             }
           </List>
@@ -24,7 +27,8 @@ const SearchResultList = ({ results }) => {
   return (
     <Segment 
       style={{position: 'absolute', 
-        zIndex:'9999',
+        zIndex: '1',
+        display: 'block',
         width: '100%'
       }}
     >

@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Downshift from 'downshift'
-import { Grid, Input, Segment, List, Header } from 'semantic-ui-react'
+import { Image,Modal, Button, Grid, Input, Segment, List, Header } from 'semantic-ui-react'
 import _ from 'lodash'
 import SearchResultList from './SearchResultList'
+import IntakeForm from './IntakeForm'
 
 const response = {
   "common": [
@@ -31,49 +32,31 @@ const response = {
        "locale": "en_US"
     },
     {
-      "food_name": "cheese",
+      "food_name": "pie",
        "photo": {
          "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
        },
     },
     {
-      "food_name": "cheese",
+      "food_name": "dal",
        "photo": {
          "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
        },
     },
     {
-      "food_name": "cheese",
+      "food_name": "bhat",
        "photo": {
          "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
        },
     },
     {
-      "food_name": "cheese",
+      "food_name": "cowly",
        "photo": {
          "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
        },
     },
     {
-      "food_name": "cheese",
-       "photo": {
-         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
-       },
-    },
-    {
-      "food_name": "cheese",
-       "photo": {
-         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
-       },
-    },
-    {
-      "food_name": "cheese",
-       "photo": {
-         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
-       },
-    },
-    {
-      "food_name": "cheese",
+      "food_name": "tea",
        "photo": {
          "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
        },
@@ -137,51 +120,85 @@ const FoodSearchForm = () => {
     }, 300)
   }
 
-  return (
-    <Downshift
-      onChange={selection =>
-        alert(selection ? `You selected ${selection.value}` : 'Selection Cleared')
-      }
-      isOpen={displayResults}
-      onOuterClick={() => setDisplayResults(false)}
-      inputValue={value}
-    >
-      {({
-        getInputProps,
-        getItemProps,
-        getLabelProps,
-        getMenuProps,
-        isOpen,
-        inputValue,
-        highlightedIndex,
-        selectedItem,
-      }) => (
-        <div style={{position: 'relative'}}>
-          <Input 
-            {
-              ...getInputProps({
-                onChange: _.debounce(handleSearchChange, 
-                500,
-                { leading: true })
-              })
-            } 
-            loading={loading}
-            size='small'
-            icon='search'
-            placeholder='Search...'
-            fluid
-          />
-          {
-            isOpen ? (
-              <SearchResultList
-                results={response}
-              />
-            ) : null
-          }
+  const [intakeFormOpen, setIntakeFormOpen] = useState(true) 
 
-        </div>
-      )}
-    </Downshift>
+  const handleCloseIntakeForm = () => {
+    console.log('clicked outsidee')
+    //setDisplayResults(false)
+    setIntakeFormOpen(false)
+  }
+
+  const [intake, setIntake] = useState({food_name: 'Yummy', photo: {thumb: 'https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg'}})
+
+  return (
+    <> 
+      <Modal
+        open={intakeFormOpen}
+        onClose={handleCloseIntakeForm}
+        size='mini'
+      >
+        {
+          intake ? (
+            <IntakeForm 
+              intake={intake}
+            />
+          ) : null
+        }
+      </Modal>
+
+      <Downshift
+        onSelect={selection => {
+          if (selection) {
+            setIntakeFormOpen(true)
+            setIntake(selection)
+          }
+        }}
+        itemToString={item => (item ? item.value : '')}
+        isOpen={displayResults}
+        onOuterClick={() => setDisplayResults(false)}
+        inputValue={value}
+      >
+        {({
+          getInputProps,
+          getItemProps,
+          getLabelProps,
+          getMenuProps,
+          isOpen,
+          inputValue,
+          highlightedIndex,
+          selectedItem,
+        }) => (
+          <div style={{position: 'relative'}}>
+            <Input 
+              {
+                ...getInputProps({
+                  onChange: _.debounce(handleSearchChange, 
+                  500,
+                  { leading: true })
+                })
+              } 
+              loading={loading}
+              size='small'
+              icon='search'
+              placeholder='Search...'
+              fluid
+            />
+            {
+              isOpen ? (
+                <SearchResultList
+                  results={response}
+                  selectedItem={selectedItem}
+                  intakeFormOpen={intakeFormOpen}
+                  getItemProps={getItemProps}
+                  getMenuProps={getMenuProps}
+                />
+              ) : null
+            }
+
+          </div>
+        )}
+      </Downshift>
+    </>
   )
 }
 

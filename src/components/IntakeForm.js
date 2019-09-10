@@ -51,7 +51,7 @@ const mealTypeOptions = [
 
 const IntakeForm = ({ intake }) => {
   const [servingSize, setServingSize] = useState('1.0')
-  const [mealType, setMealType] = useState(mealTypeOptions[0].text)
+  const [mealType, setMealType] = useState(mealTypeOptions[0].value)
   const [grams, setGrams] = useState(intake.serving_weight_grams)
   const [calories, setCalories] = useState(intake.nf_calories)
 
@@ -75,6 +75,10 @@ const IntakeForm = ({ intake }) => {
   const calculateCalories = () => {
     const newVal = (servingSize / intake.serving_qty) * intake.nf_calories
     setCalories(newVal)
+  }
+
+  const handleMealSelection = (e, { value }) => {
+    setMealType(value)
   }
 
   useEffect(() => {
@@ -167,6 +171,9 @@ const IntakeForm = ({ intake }) => {
               placeholder='Select Meal Type' 
               options={mealTypeOptions} 
               fluid 
+              value={mealType}
+              onChange={handleMealSelection}
+              selection
               style={{
                 backgroundColor:'#f2f2f2'
               }}

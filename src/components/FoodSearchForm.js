@@ -275,6 +275,21 @@ const FoodSearchForm = ({ onItemSelect }) => {
     }
   }, [itemDetails])
 
+  const testItemDetails = {
+    ...initialItemDetails,
+    completed: true
+  }
+
+  const testIntake = {
+    food_name: 'TestFood', 
+    serving_unit: 'pack',
+    serving_qty: 0.5,
+    serving_weight_grams: 112.1,
+    nf_calories: 253.99
+  }
+
+  console.log(testItemDetails)
+
   return (
     <>
       <Modal
@@ -283,9 +298,9 @@ const FoodSearchForm = ({ onItemSelect }) => {
         size='mini'
       >
         {
-          (itemDetails.completed && intake) ? (
+          (testItemDetails.completed && testIntake) ? (
             <IntakeForm 
-              intake={intake}
+              intake={testIntake}
             />
           ) : null
         }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { Grid, 
   Header, 
@@ -51,6 +51,9 @@ const mealTypeOptions = [
 
 const IntakeForm = ({ intake }) => {
   const [servingSize, setServingSize] = useState('1.0')
+  const [mealType, setMealType] = useState(mealTypeOptions[0].text)
+  const [grams, setGrams] = useState(intake.serving_weight_grams)
+  const [calories, setCalories] = useState(intake.nf_calories)
 
   const increaseServingSize = () => {
     let servingSizeNum = parseFloat(servingSize);
@@ -64,7 +67,20 @@ const IntakeForm = ({ intake }) => {
     setServingSize((servingSizeNum - 1).toFixed(1))
   }
 
-  console.log(intake)
+  const calculateGrams = () => {
+    const newVal = (servingSize / intake.serving_qty) * intake.serving_weight_grams
+    setGrams(newVal)
+  }
+  
+  const calculateCalories = () => {
+    const newVal = (servingSize / intake.serving_qty) * intake.nf_calories
+    setCalories(newVal)
+  }
+
+  useEffect(() => {
+    calculateGrams()
+    calculateCalories()
+  }, [servingSize])
 
   return (
     <>
@@ -124,7 +140,7 @@ const IntakeForm = ({ intake }) => {
             }}
           >
             <Statistic size='mini'>
-              <Statistic.Value>{ intake.serving_weight_grams }</Statistic.Value>
+              <Statistic.Value>{ Math.round(grams) }</Statistic.Value>
               <Statistic.Label>grams</Statistic.Label>
             </Statistic>
           </Grid.Column>
@@ -135,7 +151,7 @@ const IntakeForm = ({ intake }) => {
             }}
           >
             <Statistic size='mini'>
-              <Statistic.Value>{ intake.nf_calories }</Statistic.Value>
+              <Statistic.Value>{ Math.round(calories) }</Statistic.Value>
               <Statistic.Label>calories</Statistic.Label>
             </Statistic>
           </Grid.Column>

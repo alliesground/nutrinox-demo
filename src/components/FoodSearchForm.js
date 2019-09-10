@@ -39,7 +39,7 @@ const response = {
       "nix_item_id": "54836a2305e256f87e091b04",
       "locale": "en_US"
     },
-  ]
+  ],
 
   "common": [
     {
@@ -100,6 +100,8 @@ const response = {
 }
 
 const API_URL = 'https://trackapi.nutritionix.com/v2';
+const APP_ID = 'f1bf6a19';
+const APP_KEY = '8396f81cee3299cc7b01f54ec10c6d49';
 
 /*
 async function getInfo(value) {
@@ -107,8 +109,8 @@ async function getInfo(value) {
     let res = await fetch(`${API_URL}/search/instant?query=${value}`,{
       method: 'GET',
       headers: {
-        'x-app-id': 'f1bf6a19',
-        'x-app-key': '8396f81cee3299cc7b01f54ec10c6d49', 
+        'x-app-id': APP_ID,
+        'x-app-key': APP_KEY, 
         'Accept': 'application/json'
       }
     });
@@ -120,12 +122,53 @@ async function getInfo(value) {
   }
 }*/
 
+
+async function getBrandedItemDetails(item) {
+  try {
+    let res = await fetch(`${API_URL}/search/item?nix_item_id=${item.nix_item_id}`,{
+      method: 'GET',
+      headers: {
+        'x-app-id': APP_ID,
+        'x-app-key': APP_KEY, 
+        'Accept': 'application/json'
+      }
+    });
+
+    return await res.json();
+
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+async function getCommonItemDetails(item) {
+  try {
+    let res = await fetch(`${API_URL}/natural/nutrients`,{
+      method: 'POST',
+      body: JSON.stringify({query: item.food_name}),
+      headers: {
+        'x-app-id': APP_ID,
+        'x-app-key': APP_KEY, 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return await res.json();
+
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+
 const FoodSearchForm = () => {
 
   const [loading, setLoading] = useState(false)
   const [results, setResults] = useState(null)
   const [value, setValue] = useState('')
   const [displayResults, setDisplayResults] = useState(false)
+  const [itemDetailsLoading, setItemDetailsLoading] = useState(false)
 
   const handleSearchChange = (e, {value}) => {
     setLoading(true)
@@ -163,7 +206,35 @@ const FoodSearchForm = () => {
     setIntakeFormOpen(false)
   }
 
-  const [intake, setIntake] = useState({food_name: 'Yummy', photo: {thumb: 'https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg'}})
+  const [intake, setIntake] = useState({})
+
+  const newIntake = (itemDetails) => {
+    return {
+      ...itemDetails.nix_item_id && { nix_item_id: itemDetails.nix_item_id },
+      food_name: itemDetails.food_name,
+      serving_unit: itemDetails.serving_unit,
+      serving_weight_grams: itemDetails.serving_weight_grams,
+      serving_qty: itemDetails.serving_qty,
+      nf_calories: itemDetails.nf_calories,
+      thumb: itemDetails.photo.thumb,
+    }
+  }
+
+  const handleSelection = (item) => {
+    setItemDetailsLoading(true)
+    if (item.nix_item_id) {
+      getBrandedItemDetails(item).then(jsonRes => {
+        setIntake(newIntake(jsonRes.foods[0]))
+        setItemDetailsLoading(false)
+      })
+    } else {
+      getCommonItemDetails(item).then(jsonRes => {
+        setIntake(newIntake(jsonRes.foods[0]))
+        setItemDetailsLoading(false)
+      })
+    }
+    setIntakeFormOpen(true)
+  }
 
   return (
     <> 
@@ -182,12 +253,7 @@ const FoodSearchForm = () => {
       </Modal>
 
       <Downshift
-        onSelect={selection => {
-          if (selection) {
-            setIntakeFormOpen(true)
-            setIntake(selection)
-          }
-        }}
+        onSelect={handleSelection}
         itemToString={item => (item ? item.value : '')}
         isOpen={displayResults}
         onOuterClick={() => setDisplayResults(false)}

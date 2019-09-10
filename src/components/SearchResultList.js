@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Segment, List, Header, Image } from 'semantic-ui-react'
 import SearchItem from './SearchItem'
 
-const SearchResultList = ({ results, selectedItem, getItemProps, getMenuProps, intakeFormOpen }) => {
+const SearchResultList = ({ results, getItemProps, getMenuProps }) => {
 
   const searchResults = Object.entries(results).map(
     ([category, searchItems]) => {

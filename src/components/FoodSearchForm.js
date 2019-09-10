@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Downshift from 'downshift'
 import { Image,Modal, Button, Grid, Input, Segment, List, Header } from 'semantic-ui-react'
 import _ from 'lodash'
@@ -123,64 +123,40 @@ async function getInfo(value) {
 }*/
 
 
-async function getBrandedItemDetails(item) {
-  try {
-    let res = await fetch(`${API_URL}/search/item?nix_item_id=${item.nix_item_id}`,{
-      method: 'GET',
-      headers: {
-        'x-app-id': APP_ID,
-        'x-app-key': APP_KEY, 
-        'Accept': 'application/json'
-      }
-    });
 
-    return await res.json();
 
-  } catch (error) {
-    throw new Error(error);
-  }
-}
-
-async function getCommonItemDetails(item) {
-  try {
-    let res = await fetch(`${API_URL}/natural/nutrients`,{
-      method: 'POST',
-      body: JSON.stringify({query: item.food_name}),
-      headers: {
-        'x-app-id': APP_ID,
-        'x-app-key': APP_KEY, 
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    });
-
-    return await res.json();
-
-  } catch (error) {
-    throw new Error(error);
-  }
+const initialItemDetails = {
+  data: null,
+  loading: false,
+  completed: false,
+  error: false
 }
 
 
-const FoodSearchForm = () => {
+const FoodSearchForm = ({ onItemSelect }) => {
 
-  const [loading, setLoading] = useState(false)
+  const [itemsLoading, setItemsLoading] = useState(false)
+  const [itemDetails, setItemDetails] = useState(initialItemDetails)
+
   const [results, setResults] = useState(null)
-  const [value, setValue] = useState('')
+  const [inputValue, setInputValue] = useState('')
   const [displayResults, setDisplayResults] = useState(false)
-  const [itemDetailsLoading, setItemDetailsLoading] = useState(false)
+
+  const [intake, setIntake] = useState(null)
+  const [intakeFormOpen, setIntakeFormOpen] = useState(true) 
+
 
   const handleSearchChange = (e, {value}) => {
-    setLoading(true)
-    setValue(value)
+    setItemsLoading(true)
+    setInputValue(value)
     setDisplayResults(true)
 
     setTimeout(() =>{
 
       if (value.length < 1) {
-        setLoading(false)
+        setItemsLoading(false)
         setResults(null)
-        setValue('')
+        setInputValue('')
         setDisplayResults(false)
         return;
       }
@@ -189,24 +165,82 @@ const FoodSearchForm = () => {
 
       /*
       getInfo(re).then(jsonRes => {
-        setLoading(false)
+        setItemsLoading(false)
         setResults(jsonRes)
       });*/
 
-      setLoading(false)
+      setItemsLoading(false)
       setResults(response)
     }, 300)
   }
 
-  const [intakeFormOpen, setIntakeFormOpen] = useState(true) 
+  async function fetchBrandedItemDetails(item) {
+    setItemDetails({
+      ...initialItemDetails,
+      loading: true,
+    })
 
-  const handleCloseIntakeForm = () => {
-    console.log('clicked outsidee')
-    //setDisplayResults(false)
-    setIntakeFormOpen(false)
+    try {
+      let res = await fetch(`${API_URL}/search/item?nix_item_id=${item.nix_item_id}`,{
+        method: 'GET',
+        headers: {
+          'x-app-id': APP_ID,
+          'x-app-key': APP_KEY, 
+          'Accept': 'application/json'
+        }
+      });
+
+      res.json()
+        .then(jsonRes => {
+          setItemDetails(
+            {
+              data: jsonRes,
+              loading: false,
+              completed: true,
+              error: false
+            }
+          )
+        })
+
+    } catch (error) {
+      throw new Error(error);
+    }
   }
+  
+  async function fetchCommonItemDetails(item) {
+    setItemDetails({
+      ...initialItemDetails,
+      loading: true,
+    })
 
-  const [intake, setIntake] = useState({})
+    try {
+      let res = await fetch(`${API_URL}/natural/nutrients`,{
+        method: 'POST',
+        body: JSON.stringify({query: item.food_name}),
+        headers: {
+          'x-app-id': APP_ID,
+          'x-app-key': APP_KEY, 
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+
+      res.json()
+        .then(jsonRes => {
+          setItemDetails(
+            {
+              data: jsonRes,
+              loading: false,
+              completed: true,
+              error: false
+            }
+          )
+        })
+
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 
   const newIntake = (itemDetails) => {
     return {
@@ -221,30 +255,35 @@ const FoodSearchForm = () => {
   }
 
   const handleSelection = (item) => {
-    setItemDetailsLoading(true)
-    if (item.nix_item_id) {
-      getBrandedItemDetails(item).then(jsonRes => {
-        setIntake(newIntake(jsonRes.foods[0]))
-        setItemDetailsLoading(false)
-      })
-    } else {
-      getCommonItemDetails(item).then(jsonRes => {
-        setIntake(newIntake(jsonRes.foods[0]))
-        setItemDetailsLoading(false)
-      })
-    }
     setIntakeFormOpen(true)
+
+    item.nix_item_id ? (
+      fetchBrandedItemDetails(item)
+    ) : (
+      fetchCommonItemDetails(item)
+    )
   }
 
+  const handleCloseIntakeForm = () => {
+    //setDisplayResults(false)
+    setIntakeFormOpen(false)
+  }
+
+  useEffect(() => {
+    if (itemDetails.completed) {
+      setIntake(newIntake(itemDetails.data.foods[0]))
+    }
+  }, [itemDetails])
+
   return (
-    <> 
+    <>
       <Modal
         open={intakeFormOpen}
         onClose={handleCloseIntakeForm}
         size='mini'
       >
         {
-          intake ? (
+          (itemDetails.completed && intake) ? (
             <IntakeForm 
               intake={intake}
             />
@@ -257,7 +296,7 @@ const FoodSearchForm = () => {
         itemToString={item => (item ? item.value : '')}
         isOpen={displayResults}
         onOuterClick={() => setDisplayResults(false)}
-        inputValue={value}
+        inputValue={inputValue}
       >
         {({
           getInputProps,
@@ -278,7 +317,7 @@ const FoodSearchForm = () => {
                   { leading: true })
                 })
               } 
-              loading={loading}
+              loading={itemsLoading}
               size='small'
               icon='search'
               placeholder='Search...'
@@ -288,8 +327,6 @@ const FoodSearchForm = () => {
               isOpen ? (
                 <SearchResultList
                   results={response}
-                  selectedItem={selectedItem}
-                  intakeFormOpen={intakeFormOpen}
                   getItemProps={getItemProps}
                   getMenuProps={getMenuProps}
                 />

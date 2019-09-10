@@ -17,7 +17,7 @@ const IntakeDashboard = () => {
 
   const [date, setDate] = useState(currentDate);
 
-  const [intakeList, setIntakeList] = useState(initialIntakeList)
+  const [intakeList, setIntakeList] = useState(initialIntakeList) 
 
   const handlePrevClick = () => {
     if (currentDataPointIndex >= diet.data_points.length - 1) return
@@ -50,7 +50,8 @@ const IntakeDashboard = () => {
                 <Grid.Column>
                   <Grid doubling centered columns={4}>
                     <Grid.Column>
-                      <FoodSearchForm />
+                      <FoodSearchForm
+                      />
                     </Grid.Column>
                   </Grid>
                 </Grid.Column>
@@ -104,9 +105,7 @@ const IntakeDashboard = () => {
             </Grid>
           </Grid.Column>
         </Grid.Row>
-      </Grid>
-
-
+      </Grid> 
     </>
   )
 }

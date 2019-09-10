@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import styled from 'styled-components';
 import { Grid, 
   Header, 
   Image, 
@@ -6,8 +7,40 @@ import { Grid,
   Divider, 
   Select,
   Button,
-  Form
-} from 'semantic-ui-react'
+  Form,
+  Input
+} from 'semantic-ui-react';
+import NumberFormat from 'react-number-format';
+
+const ServingSizeInput = styled.div`
+  background-color: #f2f2f2;
+  padding-top: 5px;
+
+  div:first-child {
+    width: 100%;
+  }
+
+  label {
+    padding-left: 14px;
+    color: #6435c9;
+  }
+
+  span {
+    display: block; 
+    padding-top: 5px;
+    padding-left: 14px;
+  }
+
+  .buttons button:first-child {
+    background-color: #f2f2f2;
+    border-radius: 0 .28571429rem 0 0;
+  }
+
+  .buttons button:last-child {
+    background-color: #f2f2f2;
+    border-radius: 0 0 .28571429rem 0;
+  }
+`;
 
 const countryOptions = [
   { key: 'af', value: 'af', text: 'Afghanistan' },
@@ -36,7 +69,19 @@ const countryOptions = [
 ]
 
 const IntakeForm = ({ intake }) => {
-  const [value, setValue] = useState('0')
+  const [servingSize, setServingSize] = useState('1.0')
+
+  const increaseServingSize = () => {
+    let servingSizeNum = parseFloat(servingSize);
+    setServingSize((servingSizeNum + 1).toFixed(1))
+  }
+
+  const decreaseServingSize = () => {
+    let servingSizeNum = parseFloat(servingSize);
+    if ((servingSizeNum - 1) < 1) return
+
+    setServingSize((servingSizeNum - 1).toFixed(1))
+  }
 
   return (
     <>
@@ -55,38 +100,35 @@ const IntakeForm = ({ intake }) => {
 
         <Grid>
           <Grid.Column width={8}>
-            <div className='ui fluid action input'>
-              <input 
-                type='text' 
-                placeholder='servings' 
-                style={{
-                  backgroundColor: '#f2f2f2',
-                  border: 'none',
-                }}
-              />
+            <ServingSizeInput className='ui fluid action input'>
+              <div>
+                <label>
+                  Servings
+                </label>
+                <span>
+                  {servingSize}
+                </span>
+              </div>
+
               <div className="ui vertical icon buttons">
-                <button className="ui button"
-                  style={{
-                    backgroundColor: '#f2f2f2',
-                    borderRadius: '0 .28571429rem 0 0'
-                  }}
+                <button 
+                  className="ui button"
+                  onClick={increaseServingSize}
                 >
                   <i className="angle up icon" />
                 </button>
-                <button className="ui button"
-                  style={{
-                    backgroundColor: '#f2f2f2',
-                    borderRadius: '0 0 .28571429rem 0'
-                  }}
+                <button 
+                  className="ui button"
+                  onClick={decreaseServingSize}
                 >
                   <i className="angle down icon" />
                 </button>
               </div>
-            </div>
+            </ServingSizeInput>
             <b
               style={{
                 paddingLeft:'14px',
-                color: 'violet'
+                color: '#6435c9'
               }}
             >
               slice

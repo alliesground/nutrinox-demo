@@ -8,7 +8,7 @@ const Intake = ({ intake }) => {
         <List.Header 
           style={{textAlign:'right'}}
         >
-          { intake.nf_calories }
+          {`${ intake.nf_calories } cal`}
         </List.Header>
         <List.Description 
           style={{textAlign:'right'}}
@@ -20,8 +20,15 @@ const Intake = ({ intake }) => {
       <Image avatar src={ intake.thumb } />
 
       <List.Content>
-        <List.Header>{ intake.food_name }</List.Header>
-        <List.Description>{ intake.serving_qty } { intake.serving_unit }</List.Description>
+        <List.Header>
+          { intake.food_name }
+        </List.Header>
+        <List.Description>
+          {
+           `${ intake.serving_qty } 
+            ${ intake.serving_unit }`
+          }
+        </List.Description>
       </List.Content> 
     </List.Item>
   )

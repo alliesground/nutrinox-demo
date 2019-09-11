@@ -40,6 +40,20 @@ const IntakeDashboard = () => {
     setIntakeList(diet.data_points[currentDataPointIndex].intake_list)
   }, [currentDataPointIndex])
 
+  const handleIntakeSubmit = (intake) => {
+    setDiet(Object.assign({...diet}, {
+      data_points: Object.assign([...diet.data_points], {
+        0: Object.assign({...diet.data_points[0]}, {
+          intake_list: diet.data_points[0].intake_list.concat(intake)
+        })
+      })
+    }))
+  }
+
+  useEffect(() => {
+    setIntakeList(diet.data_points[currentDataPointIndex].intake_list)
+  }, [diet])
+
   return (
     <>
       <Grid>
@@ -51,6 +65,7 @@ const IntakeDashboard = () => {
                   <Grid doubling centered columns={4}>
                     <Grid.Column>
                       <FoodSearchForm
+                        onIntakeSubmit={handleIntakeSubmit}
                       />
                     </Grid.Column>
                   </Grid>

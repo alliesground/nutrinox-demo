@@ -49,7 +49,7 @@ const mealTypeOptions = [
   { key: 3, value: 'snack', text: 'Snack' },
 ]
 
-const IntakeForm = ({ intake }) => {
+const IntakeForm = ({ intake, onSubmit }) => {
   const [servingSize, setServingSize] = useState('1.0')
   const [mealType, setMealType] = useState(mealTypeOptions[0].value)
   const [grams, setGrams] = useState(intake.serving_weight_grams)
@@ -79,6 +79,16 @@ const IntakeForm = ({ intake }) => {
 
   const handleMealSelection = (e, { value }) => {
     setMealType(value)
+  }
+
+  const handleSubmit = () => {
+    onSubmit({
+      ...intake,
+      serving_size: servingSize,
+      meal_type: mealType,
+      serving_weight_grams: grams,
+      nf_calories: calories
+    })
   }
 
   useEffect(() => {
@@ -185,6 +195,7 @@ const IntakeForm = ({ intake }) => {
               size='huge'
               color='violet'
               floated='right'
+              onClick={handleSubmit}
             >
               Add
             </Button>

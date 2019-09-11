@@ -133,7 +133,7 @@ const initialItemDetails = {
 }
 
 
-const FoodSearchForm = ({ onItemSelect }) => {
+const FoodSearchForm = ({ onIntakeSubmit }) => {
 
   const [itemsLoading, setItemsLoading] = useState(false)
   const [itemDetails, setItemDetails] = useState(initialItemDetails)
@@ -290,6 +290,10 @@ const FoodSearchForm = ({ onItemSelect }) => {
 
   console.log(testItemDetails)
 
+  const handleIntakeSubmit = (intake) => {
+    onIntakeSubmit(intake)
+  }
+
   return (
     <>
       <Modal
@@ -301,6 +305,7 @@ const FoodSearchForm = ({ onItemSelect }) => {
           (testItemDetails.completed && testIntake) ? (
             <IntakeForm 
               intake={testIntake}
+              onSubmit={handleIntakeSubmit}
             />
           ) : null
         }

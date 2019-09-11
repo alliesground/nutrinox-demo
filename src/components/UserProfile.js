@@ -1,7 +1,7 @@
 import React from 'react'
 import { Grid, Header } from 'semantic-ui-react';
 
-const basicInfo = () => (
+const info = () => (
   <Grid columns={3}>
     <Grid.Column>
       1col
@@ -36,7 +36,7 @@ const UserProfile = () => {
     <Grid>
       <Grid.Row>
         <Grid.Column>
-          { basicInfo() }
+          { info() }
         </Grid.Column>
       </Grid.Row>
 

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid, Header, Divider } from 'semantic-ui-react';
 import { useData } from './hooks/useData'
 import FoodSearchForm from './FoodSearchForm';
 import IntakeListSlider from './IntakeListSlider';
 import IntakeList from './IntakeList'
 import UserProfile from './UserProfile'
+import IntakeSummary from './IntakeSummary'
 
 const IntakeDashboard = () => {
   const [diet, setDiet] = useData();
@@ -105,10 +106,12 @@ const IntakeDashboard = () => {
             <Grid stackable padded='horizontally'>
               <Grid.Column 
                 width={4}
-                color='grey'
+                style={{backgroundColor: '#f5f5f5'}}
                 only='computer tablet'
               >
                 <UserProfile />
+                <Divider />
+                <IntakeSummary />
               </Grid.Column>
 
               <Grid.Column width={12}>

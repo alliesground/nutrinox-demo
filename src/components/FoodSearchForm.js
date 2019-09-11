@@ -143,7 +143,7 @@ const FoodSearchForm = ({ onIntakeSubmit }) => {
   const [displayResults, setDisplayResults] = useState(false)
 
   const [intake, setIntake] = useState(null)
-  const [intakeFormOpen, setIntakeFormOpen] = useState(true) 
+  const [intakeFormOpen, setIntakeFormOpen] = useState(false) 
 
 
   const handleSearchChange = (e, {value}) => {

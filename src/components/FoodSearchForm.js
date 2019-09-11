@@ -292,6 +292,7 @@ const FoodSearchForm = ({ onIntakeSubmit }) => {
 
   const handleIntakeSubmit = (intake) => {
     onIntakeSubmit(intake)
+    setIntakeFormOpen(false)
   }
 
   return (

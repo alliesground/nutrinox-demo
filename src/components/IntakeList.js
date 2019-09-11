@@ -5,12 +5,12 @@ import Intake from './Intake'
 const IntakeList = ({ intakeList }) => {
   console.log('List: ', intakeList)
   const intakes = intakeList.map(intake => (
-    <Intake intake={intake} />
+    <Intake intake={intake} key={intake.food_name} />
   ))
   return (
     <Grid doubling>
       <Grid.Column>
-        <List selection relaxed divided verticalAlign='middle'>
+        <List selection relaxed='very' divided verticalAlign='middle'>
           { intakes }
         </List>
       </Grid.Column>

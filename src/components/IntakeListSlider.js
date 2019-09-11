@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Grid, Header, Icon } from 'semantic-ui-react'
 
 const currentDate = new Date(new Date().toDateString())

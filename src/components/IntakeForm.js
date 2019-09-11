@@ -7,10 +7,7 @@ import { Grid,
   Divider, 
   Select,
   Button,
-  Form,
-  Input
 } from 'semantic-ui-react';
-import NumberFormat from 'react-number-format';
 
 const ServingSizeInput = styled.div`
   background-color: #f2f2f2;

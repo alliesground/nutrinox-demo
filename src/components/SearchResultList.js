@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import { Segment, List, Header, Image } from 'semantic-ui-react'
+import React from 'react'
+import { Segment, List, Header } from 'semantic-ui-react'
 import SearchItem from './SearchItem'
 
 const SearchResultList = ({ results, getItemProps, getMenuProps }) => {
 
   const searchResults = Object.entries(results).map(
     ([category, searchItems]) => {
+
       return (
         <>
           <Header size='medium'>{ category }</Header>

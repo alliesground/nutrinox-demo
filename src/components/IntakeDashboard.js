@@ -60,7 +60,7 @@ const IntakeDashboard = () => {
       <Grid>
         <Grid.Row only='computer tablet'>
           <Grid.Column>
-            <Grid>
+            <Grid padded='vertically'>
               <Grid.Row>
                 <Grid.Column >
                   <Grid>
@@ -118,7 +118,6 @@ const IntakeDashboard = () => {
                             computer={12}
                             tablet={11}
                           >
-                            <Header>Intake List</Header>
                             <IntakeList
                               intakeList={intakeList}
                             />

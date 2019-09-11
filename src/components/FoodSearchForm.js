@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Downshift from 'downshift'
-import { Image,Modal, Button, Grid, Input, Segment, List, Header } from 'semantic-ui-react'
+import { Modal, Input } from 'semantic-ui-react'
 import _ from 'lodash'
 import SearchResultList from './SearchResultList'
 import IntakeForm from './IntakeForm'

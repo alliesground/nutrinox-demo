@@ -3,7 +3,7 @@ import { Container, Grid, Header, Image, Label } from 'semantic-ui-react';
 
 const computerLayout = () => (
   <> 
-    <Grid.Column verticalAlign='middle' textAlign='right' width={5}>
+    <Grid.Column textAlign='right' width={5}>
       <Label circular size='massive'>
         <div
           style={{width:'30px', height:'30px'}}
@@ -16,7 +16,7 @@ const computerLayout = () => (
       </Label>
     </Grid.Column>
 
-    <Grid.Column verticalAlign='middle' width={6}
+    <Grid.Column width={6}
       style={{
         paddingLeft: '0px',
         paddingRight: '0px',
@@ -29,7 +29,7 @@ const computerLayout = () => (
       />
     </Grid.Column>
 
-    <Grid.Column verticalAlign='middle' textAlign='left' width={5}>
+    <Grid.Column textAlign='left' width={5}>
       <Label circular size='massive'>
         <div
           style={{width:'30px', height:'30px'}}
@@ -58,7 +58,6 @@ const mobileLayout = () => (
   <>
     <Grid.Column 
       width={8} 
-      verticalAlign='middle'
     >
       <Header as='h2' style={{color:'white'}}>
         <Image 
@@ -71,7 +70,6 @@ const mobileLayout = () => (
 
     <Grid.Column
       width={8} 
-      verticalAlign='middle'
       textAlign='right'
     >
       <Label.Group size='huge'>
@@ -122,7 +120,7 @@ const mobileLayout = () => (
 
 const UserProfile = () => {
   return (
-    <Grid>
+    <Grid verticalAlign='middle'>
       <Grid.Row only='computer tablet' columns={3}>
         { computerLayout() }
       </Grid.Row>

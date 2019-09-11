@@ -84,6 +84,7 @@ const IntakeDashboard = () => {
                               onPrevClick={handlePrevClick}
                               onNextClick={handleNextClick}
                               date={date}
+                              headerColor={'white'}
                             />
                           </Grid.Column>
                         </Grid>
@@ -156,6 +157,7 @@ const IntakeDashboard = () => {
                     onPrevClick={handlePrevClick}
                     onNextClick={handleNextClick}
                     date={date}
+                    headerColor={'black'}
                   />
                 </Grid.Column>
               </Grid.Row>

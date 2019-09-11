@@ -6,7 +6,7 @@ const IntakeSummary = () => {
     <Grid>
       <Grid.Row>
         <Grid.Column floated='left' width={7}>
-          <Header as='h2'>
+          <Header as='h3'>
             1289 cal
             <Header.Subheader>
               consumed
@@ -15,7 +15,7 @@ const IntakeSummary = () => {
         </Grid.Column>
 
         <Grid.Column floated='right' width={7}>
-          <Header as='h2' textAlign='right'>
+          <Header as='h3' textAlign='right'>
             1500
             <Header.Subheader>
               my goal
@@ -35,7 +35,7 @@ const IntakeSummary = () => {
       <Grid.Row columns={4} textAlign='center'>
         <Grid.Column>
           <Header as='h3'>
-            1289
+            289
             <Header.Subheader>
               Breakfast
             </Header.Subheader>
@@ -44,27 +44,27 @@ const IntakeSummary = () => {
 
         <Grid.Column>
           <Header as='h3'>
-            1289
+            109
             <Header.Subheader>
-              Breakfast
+              Lunch
             </Header.Subheader>
           </Header>
         </Grid.Column>
 
         <Grid.Column>
           <Header as='h3'>
-            1289
+            129
             <Header.Subheader>
-              Breakfast
+              Dinner
             </Header.Subheader>
           </Header>
         </Grid.Column>
 
         <Grid.Column>
           <Header as='h3'>
-            1289
+            450
             <Header.Subheader>
-              Breakfast
+              Snack
             </Header.Subheader>
           </Header>
         </Grid.Column>

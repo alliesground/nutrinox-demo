@@ -58,72 +58,128 @@ const IntakeDashboard = () => {
   return (
     <>
       <Grid>
-        <Grid.Row color='purple'>
+        <Grid.Row only='computer tablet'>
           <Grid.Column>
             <Grid>
               <Grid.Row>
-                <Grid.Column>
-                  <Grid doubling centered columns={4}>
-                    <Grid.Column>
-                      <FoodSearchForm
-                        onIntakeSubmit={handleIntakeSubmit}
-                      />
-                    </Grid.Column>
+                <Grid.Column >
+                  <Grid>
+                    <Grid.Row color='violet'>
+                      <Grid.Column>
+                        <Grid doubling centered columns={4}>
+                          <Grid.Column>
+                            <FoodSearchForm
+                              onIntakeSubmit={handleIntakeSubmit}
+                            />
+                          </Grid.Column>
+                        </Grid>
+                      </Grid.Column>
+                    </Grid.Row>
+
+                    <Grid.Row color='violet'>
+                      <Grid.Column>
+                        <Grid doubling centered columns={4}>
+                          <Grid.Column>
+                            <IntakeListSlider 
+                              onPrevClick={handlePrevClick}
+                              onNextClick={handleNextClick}
+                              date={date}
+                            />
+                          </Grid.Column>
+                        </Grid>
+                      </Grid.Column>
+                    </Grid.Row>
+
+                    <Grid.Row>
+                      <Grid.Column>
+                        <Grid doubling padded='horizontally'>
+                          <Grid.Column 
+                            computer={4}
+                            tablet={5}
+                            style={{
+                              backgroundColor: '#f5f5f5',
+                            }}
+                          >
+                            <div
+                              style={{
+                                minHeight: '100vh',
+                                display: 'flex',
+                                flexFlow: 'column nowrap'
+                              }}
+                            >
+                              <UserProfile />
+                              <Divider />
+                              <IntakeSummary />
+                            </div>
+                          </Grid.Column>
+
+                          <Grid.Column 
+                            computer={12}
+                            tablet={11}
+                          >
+                            <Header>Intake List</Header>
+                            <IntakeList
+                              intakeList={intakeList}
+                            />
+                          </Grid.Column>
+                        </Grid>
+                      </Grid.Column>
+                    </Grid.Row>
+
                   </Grid>
                 </Grid.Column>
               </Grid.Row>
+            </Grid> 
+          </Grid.Column>
+        </Grid.Row>
 
-              <Grid.Row only='mobile'>
+        <Grid.Row only='mobile'>
+          <Grid.Column>
+            <Grid padded> 
+              <Grid.Row color='violet'>
                 <Grid.Column>
-                  <Grid doubling centered columns={4}>
-                    <Grid.Column>
-                      <UserProfile />
-                    </Grid.Column>
-                  </Grid>
+                  <FoodSearchForm
+                    onIntakeSubmit={handleIntakeSubmit}
+                  />
+                </Grid.Column>
+              </Grid.Row>
+
+              <Grid.Row color='violet'>
+                <Grid.Column>
+                  <UserProfile />
                 </Grid.Column>
               </Grid.Row>
 
               <Grid.Row>
                 <Grid.Column>
-                  <Grid doubling centered columns={4}>
-                    <Grid.Column>
-                      <IntakeListSlider 
-                        onPrevClick={handlePrevClick}
-                        onNextClick={handleNextClick}
-                        date={date}
-                      />
-                    </Grid.Column>
-                  </Grid>
+                  <IntakeListSlider 
+                    onPrevClick={handlePrevClick}
+                    onNextClick={handleNextClick}
+                    date={date}
+                  />
                 </Grid.Column>
               </Grid.Row>
 
+              <Grid.Row>
+                <Grid.Column>
+                  <IntakeSummary />
+                </Grid.Column>
+              </Grid.Row>
+              
+              <Divider />
+
+              <Grid.Row>
+                <Grid.Column>
+                  <IntakeList
+                    intakeList={intakeList}
+                  />
+                </Grid.Column>
+              </Grid.Row>
             </Grid>
           </Grid.Column>
         </Grid.Row>
-
-        <Grid.Row>
-          <Grid.Column>
-            <Grid stackable padded='horizontally'>
-              <Grid.Column 
-                width={4}
-                style={{backgroundColor: '#f5f5f5'}}
-                only='computer tablet'
-              >
-                <UserProfile />
-                <Divider />
-                <IntakeSummary />
-              </Grid.Column>
-
-              <Grid.Column width={12}>
-                <Header>Intake List</Header>
-                <IntakeList
-                  intakeList={intakeList}
-                />
-              </Grid.Column>
-            </Grid>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid> 
+      </Grid>
+      
     </>
   )
 }

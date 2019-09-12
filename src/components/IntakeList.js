@@ -3,7 +3,6 @@ import { Grid, List } from 'semantic-ui-react'
 import Intake from './Intake'
 
 const IntakeList = ({ intakeList }) => {
-  console.log('List: ', intakeList)
   const intakes = intakeList.map(intake => (
     <Intake intake={intake} key={intake.food_name} />
   ))

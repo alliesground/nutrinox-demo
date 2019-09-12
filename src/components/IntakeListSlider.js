@@ -3,11 +3,19 @@ import { Grid, Header, Icon } from 'semantic-ui-react'
 
 const currentDate = new Date(new Date().toDateString())
 
+
 const IntakeSlider = ({ onPrevClick, onNextClick, date, headerColor }) => {
 
-  const isCurrentDate = () => (
-    (date.valueOf() === currentDate.valueOf())
-  )
+  const displayDate = () => {
+    switch (true) {
+      case ((date.valueOf()) === (currentDate.valueOf())):
+        return 'Today';
+      case ((date.getDate() + 1) === (currentDate.getDate())):
+        return 'Yesterday'
+      default:
+        return date.toDateString()
+    }
+  }
 
   return (
     <Grid verticalAlign='middle'>
@@ -21,7 +29,7 @@ const IntakeSlider = ({ onPrevClick, onNextClick, date, headerColor }) => {
 
       <Grid.Column width={10} textAlign='center'>
         <Header as='h2' style={{color:headerColor}}>
-          { isCurrentDate() ? "Today" : date.toDateString() }
+          { displayDate() }
         </Header>
       </Grid.Column>
 

@@ -55,87 +55,103 @@ const IntakeDashboard = () => {
     setIntakeList(diet.data_points[currentDataPointIndex].intake_list)
   }, [diet])
 
+  const renderFoodSearchForm = () => {
+    return (
+      <Grid.Column>
+        <Grid doubling centered columns={4}>
+          <Grid.Column>
+            <FoodSearchForm
+              onIntakeSubmit={handleIntakeSubmit}
+            />
+          </Grid.Column>
+        </Grid>
+      </Grid.Column>
+    )
+  }
+
+  const renderIntakeListSlider = () => {
+    return (
+      <Grid.Column>
+        <Grid doubling centered columns={4}>
+          <Grid.Column>
+            <IntakeListSlider 
+              onPrevClick={handlePrevClick}
+              onNextClick={handleNextClick}
+              date={date}
+              headerColor={'white'}
+            />
+          </Grid.Column>
+        </Grid>
+      </Grid.Column>
+    )
+  }
+
+  const renderUserInfo = () => {
+    return ( 
+      <Grid.Column 
+        computer={4}
+        tablet={5}
+        style={{
+          backgroundColor: '#f5f5f5',
+        }}
+      >
+        <div
+          style={{
+            minHeight: '100vh',
+            display: 'flex',
+            flexFlow: 'column nowrap'
+          }}
+        >
+          <UserProfile />
+          <Divider />
+          <IntakeSummary />
+        </div>
+      </Grid.Column>
+    )
+  }
+
+  const renderIntakeList = () => {
+    return (
+      <Grid.Column 
+        computer={12}
+        tablet={11}
+      >
+        <IntakeList
+          intakeList={intakeList}
+        />
+      </Grid.Column>
+    )
+  }
+
   return (
     <>
-      <Grid>
+      <Grid padded>
         <Grid.Row only='computer tablet'>
           <Grid.Column>
-            <Grid padded='vertically'>
+            <Grid>
+              <Grid.Row color='violet'>
+                { renderFoodSearchForm() }
+              </Grid.Row>
+              
+              <Grid.Row color='violet'>
+                { renderIntakeListSlider() }
+              </Grid.Row>
+
               <Grid.Row>
-                <Grid.Column >
+                <Grid.Column>
                   <Grid>
-                    <Grid.Row color='violet'>
-                      <Grid.Column>
-                        <Grid doubling centered columns={4}>
-                          <Grid.Column>
-                            <FoodSearchForm
-                              onIntakeSubmit={handleIntakeSubmit}
-                            />
-                          </Grid.Column>
-                        </Grid>
-                      </Grid.Column>
-                    </Grid.Row>
-
-                    <Grid.Row color='violet'>
-                      <Grid.Column>
-                        <Grid doubling centered columns={4}>
-                          <Grid.Column>
-                            <IntakeListSlider 
-                              onPrevClick={handlePrevClick}
-                              onNextClick={handleNextClick}
-                              date={date}
-                              headerColor={'white'}
-                            />
-                          </Grid.Column>
-                        </Grid>
-                      </Grid.Column>
-                    </Grid.Row>
-
-                    <Grid.Row>
-                      <Grid.Column>
-                        <Grid doubling padded='horizontally'>
-                          <Grid.Column 
-                            computer={4}
-                            tablet={5}
-                            style={{
-                              backgroundColor: '#f5f5f5',
-                            }}
-                          >
-                            <div
-                              style={{
-                                minHeight: '100vh',
-                                display: 'flex',
-                                flexFlow: 'column nowrap'
-                              }}
-                            >
-                              <UserProfile />
-                              <Divider />
-                              <IntakeSummary />
-                            </div>
-                          </Grid.Column>
-
-                          <Grid.Column 
-                            computer={12}
-                            tablet={11}
-                          >
-                            <IntakeList
-                              intakeList={intakeList}
-                            />
-                          </Grid.Column>
-                        </Grid>
-                      </Grid.Column>
-                    </Grid.Row>
-
+                    { renderUserInfo() }
+                    { renderIntakeList() }
                   </Grid>
                 </Grid.Column>
               </Grid.Row>
-            </Grid> 
+            </Grid>
           </Grid.Column>
         </Grid.Row>
 
         <Grid.Row only='mobile'>
           <Grid.Column>
-            <Grid padded> 
+            <Grid>
               <Grid.Row color='violet'>
                 <Grid.Column>
                   <FoodSearchForm
@@ -180,7 +196,6 @@ const IntakeDashboard = () => {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      
     </>
   )
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Downshift from 'downshift'
-import { Modal, Input } from 'semantic-ui-react'
+import { Modal, Input, Loader } from 'semantic-ui-react'
 import _ from 'lodash'
 import SearchResultList from './SearchResultList'
 import IntakeForm from './IntakeForm'
@@ -101,31 +101,16 @@ const response = {
 
 const API_URL = 'https://trackapi.nutritionix.com/v2';
 const APP_ID = 'f1bf6a19';
-const APP_KEY = '8396f81cee3299cc7b01f54ec10c6d49';
-
-/*
-async function getInfo(value) {
-  try {
-    let res = await fetch(`${API_URL}/search/instant?query=${value}`,{
-      method: 'GET',
-      headers: {
-        'x-app-id': APP_ID,
-        'x-app-key': APP_KEY, 
-        'Accept': 'application/json'
-      }
-    });
-
-    return await res.json();
-
-  } catch (error) {
-    throw new Error(error);
-  }
-}*/
-
-
-
+const APP_KEY = '8396f81cee3299cc7b01f54ec10c6d49'; 
 
 const initialItemDetails = {
+  data: null,
+  loading: false,
+  completed: false,
+  error: false
+}
+
+const initialItems = {
   data: null,
   loading: false,
   completed: false,
@@ -135,10 +120,10 @@ const initialItemDetails = {
 
 const FoodSearchForm = ({ onIntakeSubmit }) => {
 
-  const [itemsLoading, setItemsLoading] = useState(false)
+  const [items, setItems] = useState(initialItems)
+
   const [itemDetails, setItemDetails] = useState(initialItemDetails)
 
-  const [results, setResults] = useState(null)
   const [inputValue, setInputValue] = useState('')
   const [displayResults, setDisplayResults] = useState(false)
 
@@ -147,31 +132,59 @@ const FoodSearchForm = ({ onIntakeSubmit }) => {
 
 
   const handleSearchChange = (e, {value}) => {
-    setItemsLoading(true)
-    setInputValue(value)
-    setDisplayResults(true)
+
+    setInputValue(value) 
 
     setTimeout(() =>{
 
       if (value.length < 1) {
-        setItemsLoading(false)
-        setResults(null)
-        setInputValue('')
+
         setDisplayResults(false)
+        setInputValue('')
+        setItems(initialItems)
+
         return;
       }
 
       const re = new RegExp(_.escapeRegExp(value), 'i')
 
-      /*
-      getInfo(re).then(jsonRes => {
-        setItemsLoading(false)
-        setResults(jsonRes)
-      });*/
+      fetchItems(re)
 
-      setItemsLoading(false)
-      setResults(response)
     }, 300)
+  }
+
+  async function fetchItems(value) {
+    setItems({
+      ...initialItems,
+      data: items.data,
+      loading: true
+    })
+
+    try {
+      let res = await fetch(`${API_URL}/search/instant?query=${value}`,{
+        method: 'GET',
+        headers: {
+          'x-app-id': APP_ID,
+          'x-app-key': APP_KEY, 
+          'Accept': 'application/json'
+        }
+      });
+
+      res.json()
+        .then(jsonRes => {
+          setItems(
+            {
+              data: jsonRes,
+              loading: false,
+              completed: true,
+              error: false
+            }
+          )
+        })
+
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   async function fetchBrandedItemDetails(item) {
@@ -265,7 +278,6 @@ const FoodSearchForm = ({ onIntakeSubmit }) => {
   }
 
   const handleCloseIntakeForm = () => {
-    //setDisplayResults(false)
     setIntakeFormOpen(false)
   }
 
@@ -275,24 +287,23 @@ const FoodSearchForm = ({ onIntakeSubmit }) => {
     }
   }, [itemDetails])
 
-  const testItemDetails = {
-    ...initialItemDetails,
-    completed: true
-  }
+  useEffect(() => {
+    if (items.completed && items.data) {
+      setDisplayResults(true)
+    }
+  }, [items])
 
-  const testIntake = {
-    food_name: 'TestFood', 
-    serving_unit: 'pack',
-    serving_qty: 0.5,
-    serving_weight_grams: 112.1,
-    nf_calories: 253.99
-  }
-
-  console.log(testItemDetails)
+  console.log('Details: ', itemDetails)
+  console.log('Items', items)
 
   const handleIntakeSubmit = (intake) => {
     onIntakeSubmit(intake)
     setIntakeFormOpen(false)
+  }
+
+  const handleOuterClick = () => {
+    setDisplayResults(false)
+    setInputValue('')
   }
 
   return (
@@ -303,12 +314,14 @@ const FoodSearchForm = ({ onIntakeSubmit }) => {
         size='mini'
       >
         {
-          (testItemDetails.completed && testIntake) ? (
-            <IntakeForm 
-              intake={testIntake}
-              onSubmit={handleIntakeSubmit}
-            />
-          ) : null
+          (itemDetails.loading && <Loader active />) || (
+            (itemDetails.completed && intake) ? (
+              <IntakeForm 
+                intake={intake}
+                onSubmit={handleIntakeSubmit}
+              />
+            ) : null
+          )
         }
       </Modal>
 
@@ -316,7 +329,7 @@ const FoodSearchForm = ({ onIntakeSubmit }) => {
         onSelect={handleSelection}
         itemToString={item => (item ? item.value : '')}
         isOpen={displayResults}
-        onOuterClick={() => setDisplayResults(false)}
+        onOuterClick={handleOuterClick}
         inputValue={inputValue}
       >
         {({
@@ -338,16 +351,16 @@ const FoodSearchForm = ({ onIntakeSubmit }) => {
                   { leading: true })
                 })
               } 
-              loading={itemsLoading}
+              loading={items.loading}
               size='small'
               icon='search'
               placeholder='Search...'
               fluid
             />
             {
-              isOpen ? (
+              (isOpen && items.data) ? (
                 <SearchResultList
-                  results={response}
+                  results={items.data}
                   getItemProps={getItemProps}
                   getMenuProps={getMenuProps}
                 />

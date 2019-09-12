@@ -5,100 +5,6 @@ import _ from 'lodash'
 import SearchResultList from './SearchResultList'
 import IntakeForm from './IntakeForm'
 
-const response = {
-  "branded": [
-    {
-      "food_name": "Crunchy Cheese",
-      "serving_unit": "pieces",
-      "nix_brand_id": "546b62d6ade15fe62e67f28e",
-      "brand_name_item_name": "Moon Cheese Crunchy Cheese",
-      "serving_qty": 7,
-      "nf_calories": 70,
-      "photo": {
-        "thumb": "https://d1r9wva3zcpswd.cloudfront.net/5a55bb56964b65e729d92b94.jpeg"
-      },
-      "brand_name": "Moon Cheese",
-      "region": 1,
-      "brand_type": 2,
-      "nix_item_id": "5a55bb52d82484467b61b8c7",
-      "locale": "en_US"
-    },
-    {
-      "food_name": "1 Slice Hard Salami, 2 Slices Colby Jack Cheese",
-      "serving_unit": "pkg",
-      "nix_brand_id": "54836a2305e256f87e091b03",
-      "brand_name_item_name": "Cheesewich 1 Slice Hard Salami, 2 Slices Colby Jack Cheese",
-      "serving_qty": 1,
-      "nf_calories": 290,
-      "photo": {
-        "thumb": "https://d1r9wva3zcpswd.cloudfront.net/5cc552597f48b489670c02a2.jpeg"
-      },
-      "brand_name": "Cheesewich",
-      "region": 1,
-      "brand_type": 2,
-      "nix_item_id": "54836a2305e256f87e091b04",
-      "locale": "en_US"
-    },
-  ],
-
-  "common": [
-    {
-      "food_name": "cheese",
-       "serving_unit": "slice (1 oz)",
-       "tag_name": "cheese",
-       "serving_qty": 1,
-       "common_type": null,
-       "tag_id": "1034",
-       "photo": {
-         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/1034_thumb.jpg"
-       },
-       "locale": "en_US"
-    },
-    {
-      "food_name": "cheesecake",
-       "serving_unit": "piece (1 NLEA serving)",
-       "tag_name": "cheesecake",
-       "serving_qty": 1,
-       "common_type": null,
-       "tag_id": "107",
-       "photo": {
-         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
-       },
-       "locale": "en_US"
-    },
-    {
-      "food_name": "pie",
-       "photo": {
-         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
-       },
-    },
-    {
-      "food_name": "dal",
-       "photo": {
-         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
-       },
-    },
-    {
-      "food_name": "bhat",
-       "photo": {
-         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
-       },
-    },
-    {
-      "food_name": "cowly",
-       "photo": {
-         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
-       },
-    },
-    {
-      "food_name": "tea",
-       "photo": {
-         "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/107_thumb.jpg"
-       },
-    },
-  ]
-}
-
 const API_URL = 'https://trackapi.nutritionix.com/v2';
 const APP_ID = 'f1bf6a19';
 const APP_KEY = '8396f81cee3299cc7b01f54ec10c6d49'; 
@@ -116,7 +22,6 @@ const initialItems = {
   completed: false,
   error: false
 }
-
 
 const FoodSearchForm = ({ onIntakeSubmit }) => {
 
@@ -292,9 +197,6 @@ const FoodSearchForm = ({ onIntakeSubmit }) => {
       setDisplayResults(true)
     }
   }, [items])
-
-  console.log('Details: ', itemDetails)
-  console.log('Items', items)
 
   const handleIntakeSubmit = (intake) => {
     onIntakeSubmit(intake)

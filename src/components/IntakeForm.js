@@ -103,7 +103,7 @@ const IntakeForm = ({ intake, onSubmit }) => {
             src={intake.thumb} 
           /> 
           <br />
-          Cheese
+          { intake.food_name }
         </Header>
 
         <Divider />

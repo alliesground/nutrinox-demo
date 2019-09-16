@@ -141,7 +141,7 @@ const IntakeForm = ({ intake, onSubmit }) => {
                 color: '#6435c9'
               }}
             >
-              slice
+              {intake.serving_unit}
             </b>
           </Grid.Column>
 

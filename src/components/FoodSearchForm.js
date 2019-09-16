@@ -221,6 +221,7 @@ const FoodSearchForm = ({ onIntakeSubmit, ...props }) => {
               <IntakeForm 
                 intake={intake}
                 onSubmit={handleIntakeSubmit}
+                onCancel={handleCloseIntakeForm}
               />
             ) : null
           )

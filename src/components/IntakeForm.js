@@ -7,6 +7,7 @@ import { Grid,
   Divider, 
   Select,
   Button,
+  Icon,
 } from 'semantic-ui-react';
 
 const ServingSizeInput = styled.div`
@@ -46,7 +47,7 @@ const mealTypeOptions = [
   { key: 3, value: 'snack', text: 'Snack' },
 ]
 
-const IntakeForm = ({ intake, onSubmit }) => {
+const IntakeForm = ({ intake, onSubmit, onCancel }) => {
   const [servingSize, setServingSize] = useState('1.0')
   const [mealType, setMealType] = useState(mealTypeOptions[0].value)
   const [grams, setGrams] = useState(intake.serving_weight_grams)
@@ -88,6 +89,10 @@ const IntakeForm = ({ intake, onSubmit }) => {
     })
   }
 
+  const handleCloseForm = () => {
+    onCancel()
+  }
+
   useEffect(() => {
     calculateGrams()
     calculateCalories()
@@ -97,6 +102,11 @@ const IntakeForm = ({ intake, onSubmit }) => {
     <>
       <div className='content'>
         <Header as='h3'>
+          <Icon link name='close' 
+            style={{float:'right'}}
+            color='violet'
+            onClick={handleCloseForm}
+          />
           <Image 
             wrapped 
             size='massive' 

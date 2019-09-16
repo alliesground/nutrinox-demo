@@ -1,4 +1,4 @@
-import React, { useState } from  'react'
+import React from  'react'
 import {Grid, Header, Progress} from 'semantic-ui-react'
 
 const IntakeSummary = ({ intakeList }) => {
@@ -30,11 +30,6 @@ const IntakeSummary = ({ intakeList }) => {
     calConsumedInDinner +
     calConsumedInSnack
   )
-
-  /*
-  const totalCalConsumed = intakeList.reduce((memo, intake) => {
-    return memo + intake.nf_calories
-  }, 0)*/
   
   const percentConsumed = Math.round(totalCalConsumed / goal * 100)
 

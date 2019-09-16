@@ -30,7 +30,9 @@ const SearchResultList = ({ results, getItemProps, getMenuProps }) => {
       style={{position: 'absolute', 
         zIndex: '1',
         display: 'block',
-        width: '100%'
+        width: '100%',
+        height: '100vh',
+        overflowY: 'scroll'
       }}
     >
       { searchResults }

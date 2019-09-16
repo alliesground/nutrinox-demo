@@ -104,7 +104,9 @@ const IntakeDashboard = () => {
         >
           <UserProfile />
           <Divider />
-          <IntakeSummary />
+          <IntakeSummary 
+            intakeList={intakeList}
+          />
         </div>
       </Grid.Column>
     )
@@ -179,7 +181,9 @@ const IntakeDashboard = () => {
 
               <Grid.Row>
                 <Grid.Column>
-                  <IntakeSummary />
+                  <IntakeSummary 
+                    intakeList={intakeList}
+                  />
                 </Grid.Column>
               </Grid.Row>
               

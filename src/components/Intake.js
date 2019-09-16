@@ -8,7 +8,7 @@ const Intake = ({ intake }) => {
         <List.Header 
           style={{textAlign:'right'}}
         >
-          {`${ intake.nf_calories } cal`}
+          {`${ Math.round(intake.nf_calories) } cal`}
         </List.Header>
         <List.Description 
           style={{textAlign:'right'}}

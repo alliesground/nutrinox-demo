@@ -6,6 +6,7 @@ const IntakeList = ({ intakeList }) => {
   const intakes = intakeList.map(intake => (
     <Intake intake={intake} key={intake.food_name} />
   ))
+
   return (
     <Grid doubling>
       <Grid.Column>

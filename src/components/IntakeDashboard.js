@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Header, Divider } from 'semantic-ui-react';
+import { Button, Grid, Header, Divider } from 'semantic-ui-react';
 import { useData } from './hooks/useData'
 import FoodSearchForm from './FoodSearchForm';
 import IntakeListSlider from './IntakeListSlider';
@@ -55,6 +55,8 @@ const IntakeDashboard = () => {
     setIntakeList(diet.data_points[currentDataPointIndex].intake_list)
   }, [diet])
 
+  let searchInputRef = null
+
   const renderFoodSearchForm = () => {
     return (
       <Grid.Column>
@@ -62,6 +64,7 @@ const IntakeDashboard = () => {
           <Grid.Column>
             <FoodSearchForm
               onIntakeSubmit={handleIntakeSubmit}
+              searchInputRef={el => searchInputRef = el}
             />
           </Grid.Column>
         </Grid>
@@ -123,6 +126,10 @@ const IntakeDashboard = () => {
         />
       </Grid.Column>
     )
+  }
+
+  const focusSearchInput = () => {
+    searchInputRef.focus()
   }
 
   return (
@@ -199,6 +206,23 @@ const IntakeDashboard = () => {
             </Grid>
           </Grid.Column>
         </Grid.Row>
+
+        <div
+          style={{
+            position:'fixed',
+            bottom: '0',
+            right: '0',
+            marginBottom: '15px'
+          }}
+        >
+          <Button
+            color='violet'
+            size='huge'
+            circular
+            icon='plus'
+            onClick={focusSearchInput}
+          />
+        </div>
       </Grid>
     </>
   )

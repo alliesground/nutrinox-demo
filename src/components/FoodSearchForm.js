@@ -23,7 +23,7 @@ const initialItems = {
   error: false
 }
 
-const FoodSearchForm = ({ onIntakeSubmit }) => {
+const FoodSearchForm = ({ onIntakeSubmit, ...props }) => {
 
   const [items, setItems] = useState(initialItems)
 
@@ -258,6 +258,7 @@ const FoodSearchForm = ({ onIntakeSubmit }) => {
               icon='search'
               placeholder='Search...'
               fluid
+              ref={props.searchInputRef}
             />
             {
               (isOpen && items.data) ? (

@@ -8,6 +8,7 @@ import { Grid,
   Select,
   Button,
   Icon,
+  Popup
 } from 'semantic-ui-react';
 
 const ServingSizeInput = styled.div`
@@ -47,20 +48,26 @@ const mealTypeOptions = [
   { key: 3, value: 'snack', text: 'Snack' },
 ]
 
-const IntakeForm = ({ intake, onSubmit, onCancel }) => {
+const IntakeForm = ({ intake, onSubmit, onCancel, totalCalConsumed, goal }) => {
   const [servingSize, setServingSize] = useState('1.0')
   const [mealType, setMealType] = useState(mealTypeOptions[0].value)
   const [grams, setGrams] = useState(intake.serving_weight_grams)
   const [calories, setCalories] = useState(intake.nf_calories)
 
+  const [isGoalExceeded, setIsGoalExceeded] = useState(false)
+
   const increaseServingSize = () => {
+    if (isGoalExceeded) return
+
     let servingSizeNum = parseFloat(servingSize);
     setServingSize((servingSizeNum + 1).toFixed(1))
   }
 
-  const decreaseServingSize = () => {
+  const decreaseServingSize = () => { 
     let servingSizeNum = parseFloat(servingSize);
     if ((servingSizeNum - 1) < 1) return
+
+    if (isGoalExceeded) setIsGoalExceeded(false)
 
     setServingSize((servingSizeNum - 1).toFixed(1))
   }
@@ -94,9 +101,20 @@ const IntakeForm = ({ intake, onSubmit, onCancel }) => {
   }
 
   useEffect(() => {
+    if (isGoalExceeded) return
+
     calculateGrams()
     calculateCalories()
+
   }, [servingSize])
+
+  useEffect(() => {
+
+    if (totalCalConsumed + calories > goal) {
+      setIsGoalExceeded(true)
+    }
+
+  }, [calories])
 
   return (
     <>
@@ -171,10 +189,18 @@ const IntakeForm = ({ intake, onSubmit, onCancel }) => {
               paddingTop:'30px'
             }}
           >
-            <Statistic size='mini'>
-              <Statistic.Value>{ Math.round(calories) }</Statistic.Value>
-              <Statistic.Label>calories</Statistic.Label>
-            </Statistic>
+            <Popup
+              trigger={
+                <Statistic size='mini'>
+                  <Statistic.Value>{ Math.round(calories) }</Statistic.Value>
+                  <Statistic.Label>calories</Statistic.Label>
+                </Statistic>
+              }
+              content='You have exceeded your Goal'
+              open={isGoalExceeded}
+              position='top right'
+              offset='0, 20px'
+            />
           </Grid.Column>
         </Grid>
 
@@ -194,6 +220,7 @@ const IntakeForm = ({ intake, onSubmit, onCancel }) => {
               style={{
                 backgroundColor:'#f2f2f2'
               }}
+              disabled={isGoalExceeded}
             />
 
             <br />
@@ -203,6 +230,7 @@ const IntakeForm = ({ intake, onSubmit, onCancel }) => {
               color='violet'
               floated='right'
               onClick={handleSubmit}
+              disabled={isGoalExceeded}
             >
               Add
             </Button>

@@ -6,6 +6,7 @@ import IntakeListSlider from './IntakeListSlider';
 import IntakeList from './IntakeList'
 import UserProfile from './UserProfile'
 import IntakeSummary from './IntakeSummary'
+import useCalConsumed from './hooks/useCalConsumed'
 
 const IntakeDashboard = () => {
   const [diet, setDiet] = useData();
@@ -18,7 +19,10 @@ const IntakeDashboard = () => {
 
   const [date, setDate] = useState(currentDate);
 
-  const [intakeList, setIntakeList] = useState(initialIntakeList) 
+  const [intakeList, setIntakeList] = useState(initialIntakeList)
+
+  const calConsumed = useCalConsumed(diet.data_points[0].intake_list)
+  const intakeGoal = 1500
 
   const handlePrevClick = () => {
     if (currentDataPointIndex >= diet.data_points.length - 1) return
@@ -65,6 +69,8 @@ const IntakeDashboard = () => {
             <FoodSearchForm
               onIntakeSubmit={handleIntakeSubmit}
               searchInputRef={el => searchInputRef = el}
+              totalCalConsumed={calConsumed.total}
+              goal={intakeGoal}
             />
           </Grid.Column>
         </Grid>

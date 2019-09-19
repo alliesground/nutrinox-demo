@@ -190,6 +190,10 @@ const FoodSearchForm = ({ onIntakeSubmit, ...props }) => {
     if (itemDetails.completed) {
       setIntake(newIntake(itemDetails.data.foods[0]))
     }
+
+    return () => {
+      setIntake(null)
+    }
   }, [itemDetails])
 
   useEffect(() => {

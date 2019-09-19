@@ -1,44 +1,19 @@
 import React from  'react'
 import {Grid, Header, Progress} from 'semantic-ui-react'
+import useCalConsumed from './hooks/useCalConsumed'
 
-const IntakeSummary = ({ intakeList }) => {
+const IntakeSummary = ({ intakeList, goal }) => {
 
-  const goal = 1500
-  let calConsumedInBreakfast = 0
-  let calConsumedInLunch = 0
-  let calConsumedInDinner = 0
-  let calConsumedInSnack = 0
-
-  intakeList.forEach(intake => {
-    switch (intake.meal_type) {
-      case 'breakfast':
-        calConsumedInBreakfast = calConsumedInBreakfast + intake.nf_calories
-        break
-      case 'lunch':
-        calConsumedInLunch = calConsumedInLunch + intake.nf_calories
-        break
-      case 'dinner':
-        calConsumedInDinner = calConsumedInDinner + intake.nf_calories
-        break
-      case 'snack':
-        calConsumedInSnack = calConsumedInSnack + intake.nf_calories
-    }
-  })
-
-  const totalCalConsumed = (calConsumedInBreakfast +
-    calConsumedInLunch +
-    calConsumedInDinner +
-    calConsumedInSnack
-  )
+  const calConsumed = useCalConsumed(intakeList)
   
-  const percentConsumed = Math.round(totalCalConsumed / goal * 100)
+  const percentConsumed = Math.round(calConsumed.total / goal * 100)
 
   return (
     <Grid>
       <Grid.Row>
         <Grid.Column floated='left' width={7}>
           <Header as='h3'>
-            {Math.round(totalCalConsumed)} cal
+            {Math.round(calConsumed.total)} cal
             <Header.Subheader>
               consumed
             </Header.Subheader>
@@ -66,7 +41,7 @@ const IntakeSummary = ({ intakeList }) => {
       <Grid.Row columns={4} textAlign='center'>
         <Grid.Column>
           <Header as='h3'>
-            {Math.round(calConsumedInBreakfast)}
+            {Math.round(calConsumed.breakfast)}
             <Header.Subheader>
               Breakfast
             </Header.Subheader>
@@ -75,7 +50,7 @@ const IntakeSummary = ({ intakeList }) => {
 
         <Grid.Column>
           <Header as='h3'>
-            {Math.round(calConsumedInLunch)}
+            {Math.round(calConsumed.lunch)}
             <Header.Subheader>
               Lunch
             </Header.Subheader>
@@ -84,7 +59,7 @@ const IntakeSummary = ({ intakeList }) => {
 
         <Grid.Column>
           <Header as='h3'>
-            {Math.round(calConsumedInDinner)}
+            {Math.round(calConsumed.dinner)}
             <Header.Subheader>
               Dinner
             </Header.Subheader>
@@ -93,7 +68,7 @@ const IntakeSummary = ({ intakeList }) => {
 
         <Grid.Column>
           <Header as='h3'>
-            {Math.round(calConsumedInSnack)}
+            {Math.round(calConsumed.snack)}
             <Header.Subheader>
               Snack
             </Header.Subheader>

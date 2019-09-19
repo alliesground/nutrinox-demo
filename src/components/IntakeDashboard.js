@@ -115,6 +115,7 @@ const IntakeDashboard = () => {
           <Divider />
           <IntakeSummary 
             intakeList={intakeList}
+            goal={intakeGoal}
           />
         </div>
       </Grid.Column>
@@ -196,6 +197,7 @@ const IntakeDashboard = () => {
                 <Grid.Column>
                   <IntakeSummary 
                     intakeList={intakeList}
+                    goal={intakeGoal}
                   />
                 </Grid.Column>
               </Grid.Row>

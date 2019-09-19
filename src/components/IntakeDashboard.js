@@ -61,17 +61,48 @@ const IntakeDashboard = () => {
 
   let searchInputRef = null
 
+  const foodSearchForm = () => (
+    <FoodSearchForm
+      onIntakeSubmit={handleIntakeSubmit}
+      searchInputRef={el => searchInputRef = el}
+      totalCalConsumed={calConsumed.total}
+      goal={intakeGoal}
+    />
+  )
+
+  const userProfile = () => (
+    <UserProfile />
+  )
+
+  const intakeSummary = () => (
+    <IntakeSummary 
+      intakeList={intakeList}
+      goal={intakeGoal}
+    />
+  )
+
+  const intakeListSlider = (headerColor='white') => (
+    <IntakeListSlider 
+      onPrevClick={handlePrevClick}
+      onNextClick={handleNextClick}
+      date={date}
+      headerColor={headerColor}
+    />
+  )
+
+  const intakeListComponent = () => (
+    <IntakeList
+      intakeList={intakeList}
+    />
+  )
+
+
   const renderFoodSearchForm = () => {
     return (
       <Grid.Column>
         <Grid doubling centered columns={4}>
           <Grid.Column>
-            <FoodSearchForm
-              onIntakeSubmit={handleIntakeSubmit}
-              searchInputRef={el => searchInputRef = el}
-              totalCalConsumed={calConsumed.total}
-              goal={intakeGoal}
-            />
+            { foodSearchForm() }
           </Grid.Column>
         </Grid>
       </Grid.Column>
@@ -83,12 +114,7 @@ const IntakeDashboard = () => {
       <Grid.Column>
         <Grid doubling centered columns={4}>
           <Grid.Column>
-            <IntakeListSlider 
-              onPrevClick={handlePrevClick}
-              onNextClick={handleNextClick}
-              date={date}
-              headerColor={'white'}
-            />
+            { intakeListSlider() }
           </Grid.Column>
         </Grid>
       </Grid.Column>
@@ -111,12 +137,9 @@ const IntakeDashboard = () => {
             flexFlow: 'column nowrap'
           }}
         >
-          <UserProfile />
+          { userProfile() }
           <Divider />
-          <IntakeSummary 
-            intakeList={intakeList}
-            goal={intakeGoal}
-          />
+          { intakeSummary() }
         </div>
       </Grid.Column>
     )
@@ -128,9 +151,7 @@ const IntakeDashboard = () => {
         computer={12}
         tablet={11}
       >
-        <IntakeList
-          intakeList={intakeList}
-        />
+        { intakeListComponent() }
       </Grid.Column>
     )
   }
@@ -170,35 +191,25 @@ const IntakeDashboard = () => {
             <Grid>
               <Grid.Row color='violet'>
                 <Grid.Column>
-                  <FoodSearchForm
-                    onIntakeSubmit={handleIntakeSubmit}
-                  />
+                  { foodSearchForm() }
                 </Grid.Column>
               </Grid.Row>
 
               <Grid.Row color='violet'>
                 <Grid.Column>
-                  <UserProfile />
+                  { userProfile() }
                 </Grid.Column>
               </Grid.Row>
 
               <Grid.Row>
                 <Grid.Column>
-                  <IntakeListSlider 
-                    onPrevClick={handlePrevClick}
-                    onNextClick={handleNextClick}
-                    date={date}
-                    headerColor={'black'}
-                  />
+                  { intakeListSlider('black') }
                 </Grid.Column>
               </Grid.Row>
 
               <Grid.Row>
                 <Grid.Column>
-                  <IntakeSummary 
-                    intakeList={intakeList}
-                    goal={intakeGoal}
-                  />
+                  { intakeSummary() }
                 </Grid.Column>
               </Grid.Row>
               
@@ -206,9 +217,7 @@ const IntakeDashboard = () => {
 
               <Grid.Row>
                 <Grid.Column>
-                  <IntakeList
-                    intakeList={intakeList}
-                  />
+                  { intakeListComponent() }
                 </Grid.Column>
               </Grid.Row>
             </Grid>
